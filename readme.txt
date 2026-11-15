@@ -4,7 +4,7 @@ Tags: memory limit, image memory, upload error, media library, image compression
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ When an image is uploaded, WordPress and GD / Imagick must decompress the full u
 3. Visit **Settings > Image Memory Guard** to view server diagnostics and test image dimensions.
 
 == Changelog ==
+
+= 1.1.0 =
+* Feature (Pro): Action Scheduler background chunked resizing queue.
+* Feature (Pro): WebP auto-converter engine with non-blocking CPU throttle.
+* Feature (Pro): EXIF and privacy metadata sanitizer for uploaded media.
+* Feature (Pro): WP-CLI commands (`wp image-guard audit` & `wp image-guard regenerate`).
+* Enhancement: Freemius license filter integration (fs_can_use_premium_code__wpfh-image-memory-guard).
 
 = 1.0.0 =
 * Initial public release.

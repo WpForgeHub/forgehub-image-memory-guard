@@ -3,7 +3,7 @@
  * Plugin Name:       WPFH Image Memory Guard
  * Plugin URI:        https://wpforgehub.com/plugins/wpfh-image-memory-guard/
  * Description:       Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            WPForgeHub
  * Author URI:        https://wpforgehub.com
  * License:           GPL-2.0+
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPFH_IMG_VERSION', '1.0.0' );
+define( 'WPFH_IMG_VERSION', '1.1.0' );
 define( 'WPFH_IMG_FILE', __FILE__ );
 define( 'WPFH_IMG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WPFH_IMG_URL', plugin_dir_url( __FILE__ ) );
@@ -49,15 +49,27 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 						'first-path' => 'options-general.php?page=wpfh-image-memory-guard',
 					),
 				) );
+			} else {
+				// Fallback object for Free / Filter-based Pro distribution
+				$wpfh_img_fs = new class {
+					public function can_use_premium_code() {
+						return (bool) apply_filters( 'fs_can_use_premium_code__wpfh-image-memory-guard', false );
+					}
+					public function is__premium_only() { return false; }
+					public function is_plan( $plan ) {
+						return (bool) apply_filters( 'fs_is_plan__wpfh-image-memory-guard', false, $plan );
+					}
+					public function get_upgrade_url() {
+						return 'https://wpforgehub.com/plugins/wpfh-image-memory-guard/#pricing';
+					}
+				};
 			}
 		}
 
 		return $wpfh_img_fs;
 	}
 
-	if ( file_exists( WPFH_IMG_PATH . 'freemius/start.php' ) ) {
-		wpfh_img_fs();
-	}
+	wpfh_img_fs();
 }
 
 /**
@@ -86,6 +98,31 @@ final class WPFH_Image_Memory_Guard {
 
 		WPFH_IMG_Guard::get_instance();
 		WPFH_IMG_Admin::get_instance();
+
+		// Pro Modules
+		if ( function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code() ) {
+			$pro_queue = WPFH_IMG_PATH . 'includes/pro/class-wpfh-img-queue.php';
+			$pro_webp  = WPFH_IMG_PATH . 'includes/pro/class-wpfh-img-webp.php';
+			$pro_exif  = WPFH_IMG_PATH . 'includes/pro/class-wpfh-img-exif.php';
+			$pro_cli   = WPFH_IMG_PATH . 'includes/pro/class-wpfh-img-cli.php';
+
+			if ( file_exists( $pro_queue ) ) {
+				require_once $pro_queue;
+				WPFH_IMG_Queue::get_instance();
+			}
+			if ( file_exists( $pro_webp ) ) {
+				require_once $pro_webp;
+				WPFH_IMG_WebP::get_instance();
+			}
+			if ( file_exists( $pro_exif ) ) {
+				require_once $pro_exif;
+				WPFH_IMG_EXIF::get_instance();
+			}
+			if ( file_exists( $pro_cli ) ) {
+				require_once $pro_cli;
+				WPFH_IMG_CLI::init();
+			}
+		}
 	}
 }
 
