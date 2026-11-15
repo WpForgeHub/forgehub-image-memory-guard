@@ -38,8 +38,24 @@ class WPFH_IMG_Admin {
 	}
 
 	public function register_settings() {
-		register_setting( 'wpfh_img_settings', 'wpfh_img_auto_downscale' );
-		register_setting( 'wpfh_img_settings', 'wpfh_img_max_dimension' );
+		register_setting(
+			'wpfh_img_settings',
+			'wpfh_img_auto_downscale',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => 'yes',
+			)
+		);
+		register_setting(
+			'wpfh_img_settings',
+			'wpfh_img_max_dimension',
+			array(
+				'type'              => 'integer',
+				'sanitize_callback' => 'absint',
+				'default'           => 2560,
+			)
+		);
 	}
 
 	public function add_action_links( $links ) {

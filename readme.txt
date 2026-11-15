@@ -1,8 +1,8 @@
-=== WPFH Image Memory Guard ===
+=== WPForgeHub Image Memory Guard ===
 Contributors: wpforgehub
 Tags: memory limit, image memory, upload error, media library, image compression
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.1.0
 License: GPLv2 or later
@@ -12,13 +12,13 @@ Proactive memory protection for WordPress media library. Pre-calculates image me
 
 == Description ==
 
-One of the most frustrating errors in WordPress is uploading a high-resolution photo only to be hit with a generic "HTTP error" or a fatal crash:
+One of the most common and disruptive errors in WordPress is uploading a high-resolution photo only to encounter a generic "HTTP error" or fatal crash:
 
 `Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 32000000 bytes)`
 
-When an image is uploaded, WordPress and GD / Imagick must decompress the full uncompressed raster into RAM to generate intermediate thumbnails (thumbnail, medium, large, etc.). A 15 MB smartphone photo can easily require over 180 MB of RAM during decompression!
+When an image is uploaded, WordPress and GD / Imagick must decompress the full uncompressed raster into RAM to generate intermediate thumbnails (thumbnail, medium, large, etc.). A 15 MB photo can easily require over 180 MB of RAM during decompression!
 
-**WPFH Image Memory Guard** prevents this catastrophic crash before it happens:
+**WPForgeHub Image Memory Guard** prevents this catastrophic crash before it happens:
 
 * **Pre-Flight Memory Budget Inspection**: Inspects the binary headers of uploaded images (`getimagesize`) without allocating full canvas memory. Calculates exact memory requirement before processing begins.
 * **Smart Auto-Downscaling**: Gracefully resizes oversized images down to manageable master dimensions instead of crashing the PHP process.
@@ -27,7 +27,7 @@ When an image is uploaded, WordPress and GD / Imagick must decompress the full u
 * **Interactive Admin Budget Calculator**: Test any image resolution against your server memory in real-time.
 
 ### Key Features (Free Version)
-* **Pre-Upload Memory Verification**: Protects against 500/fatal errors.
+* **Pre-Upload Memory Verification**: Protects against 500 and fatal memory exhaustion errors.
 * **Automatic Master Downscaling**: Keeps photos within server safe zones.
 * **Live System Diagnostics**: Monitor PHP memory limits, peak usage, and max safe resolutions.
 * **Memory De-allocation**: Calls garbage collection after thumbnail generation cycles.
@@ -40,21 +40,26 @@ When an image is uploaded, WordPress and GD / Imagick must decompress the full u
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/wpfh-image-memory-guard`.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Visit **Settings > Image Memory Guard** to view server diagnostics and test image dimensions.
+1. Upload the `wpfh-image-memory-guard` folder to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Navigate to **Settings > Image Memory Guard** to view server diagnostics and test image dimensions.
+
+== Frequently Asked Questions ==
+
+= How does WPForgeHub Image Memory Guard protect against memory crashes? =
+It intercepts the upload process before image decompression occurs, calculates the necessary RAM budget using binary header dimensions, and either elevates memory temporarily or downscales the master file to prevent PHP crashes.
+
+= Does this plugin alter my original images? =
+Only if the image exceeds your server's safe memory limit and you have enabled the Auto-Downscaling feature. Otherwise, it simply prevents the crash and displays an informative notification.
+
+= Does this plugin require any external API or service? =
+No. WPForgeHub Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
 
 == Changelog ==
 
 = 1.1.0 =
-* Feature (Pro): Action Scheduler background chunked resizing queue.
-* Feature (Pro): WebP auto-converter engine with non-blocking CPU throttle.
-* Feature (Pro): EXIF and privacy metadata sanitizer for uploaded media.
-* Feature (Pro): WP-CLI commands (`wp image-guard audit` & `wp image-guard regenerate`).
-* Enhancement: Freemius license filter integration (fs_can_use_premium_code__wpfh-image-memory-guard).
-
-= 1.0.0 =
-* Initial public release.
-* Pre-flight upload memory budget calculation.
-* Dynamic memory limit boost for image processing.
-* Interactive memory budget calculator in admin.
+* Feature: Pre-flight upload memory budget calculation.
+* Feature: Dynamic memory limit boost for image processing.
+* Feature: Interactive memory budget calculator in WordPress admin.
+* Enhancement: Safe memory de-allocation via garbage collection after processing.
+* Initial stable directory release.
