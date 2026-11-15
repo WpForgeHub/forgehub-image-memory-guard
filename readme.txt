@@ -8,7 +8,7 @@ Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
+Proactive memory protection for media library. Pre-calculates image memory budgets, prevents fatal memory exhaustion, and enables safe auto-scaling.
 
 == Description ==
 

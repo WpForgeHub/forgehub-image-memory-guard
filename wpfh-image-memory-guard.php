@@ -8,7 +8,7 @@
  * Author URI:        https://wpforgehub.com
  * License:           GPL-2.0+
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wpfh-image-memory-guard
+ * Text Domain:       wpforgehub-image-memory-guard
  * Domain Path:       /languages
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -38,10 +38,12 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 			// Clean fallback for standard WordPress distribution
 			$wpfh_img_fs = new class {
 				public function can_use_premium_code() {
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					return (bool) apply_filters( 'fs_can_use_premium_code__wpfh-image-memory-guard', false );
 				}
 				public function is__premium_only() { return false; }
 				public function is_plan( $plan ) {
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					return (bool) apply_filters( 'fs_is_plan__wpfh-image-memory-guard', false, $plan );
 				}
 				public function get_upgrade_url() {
@@ -75,7 +77,7 @@ final class WPFH_Image_Memory_Guard {
 	}
 
 	public function init() {
-		load_plugin_textdomain( 'wpfh-image-memory-guard', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		// Note: load_plugin_textdomain is intentionally omitted as WordPress.org automatically loads translations since WP 4.6.
 
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-guard.php';
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-admin.php';
