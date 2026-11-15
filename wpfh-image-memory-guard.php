@@ -31,25 +31,42 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 		global $wpfh_img_fs;
 
 		if ( ! isset( $wpfh_img_fs ) ) {
-			if ( file_exists( WPFH_IMG_PATH . 'freemius/start.php' ) ) {
-				require_once WPFH_IMG_PATH . 'freemius/start.php';
+			$fs_path = WPFH_IMG_PATH . 'freemius/start.php';
+			if ( file_exists( $fs_path ) ) {
+				require_once $fs_path;
+				$wpfh_img_fs = fs_dynamic_init( array(
+					'id'             => '45083',
+					'slug'           => 'wpfh-image-memory-guard',
+					'type'           => 'plugin',
+					'public_key'     => 'pk_c3faa2866670be0e103e2a06f97c7',
+					'is_premium'     => false,
+					'has_addons'     => false,
+					'has_paid_plans' => true,
+					'menu'           => array(
+						'slug'       => 'wpforgehub-image-memory-guard',
+						'first-path' => 'options-general.php?page=wpforgehub-image-memory-guard',
+						'parent'     => array(
+							'slug' => 'options-general.php',
+						),
+					),
+				) );
+			} else {
+				// Clean fallback for standard WordPress distribution
+				$wpfh_img_fs = new class {
+					public function can_use_premium_code() {
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						return (bool) apply_filters( 'fs_can_use_premium_code__wpfh-image-memory-guard', false );
+					}
+					public function is__premium_only() { return false; }
+					public function is_plan( $plan ) {
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+						return (bool) apply_filters( 'fs_is_plan__wpfh-image-memory-guard', false, $plan );
+					}
+					public function get_upgrade_url() {
+						return 'https://wpforgehub.com/plugins/wpfh-image-memory-guard/';
+					}
+				};
 			}
-
-			// Clean fallback for standard WordPress distribution
-			$wpfh_img_fs = new class {
-				public function can_use_premium_code() {
-					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-					return (bool) apply_filters( 'fs_can_use_premium_code__wpfh-image-memory-guard', false );
-				}
-				public function is__premium_only() { return false; }
-				public function is_plan( $plan ) {
-					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-					return (bool) apply_filters( 'fs_is_plan__wpfh-image-memory-guard', false, $plan );
-				}
-				public function get_upgrade_url() {
-					return 'https://wpforgehub.com/plugins/wpfh-image-memory-guard/';
-				}
-			};
 		}
 
 		return $wpfh_img_fs;
