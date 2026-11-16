@@ -1,10 +1,27 @@
+# Operating System Files
 .DS_Store
 Thumbs.db
-*.log
-node_modules/
-vendor/
-dist/
-build/
+desktop.ini
+
+# IDE Files
 .vscode/
 .idea/
+*.suo
+*.user
+
+# Build and Node
+node_modules/
+dist/
+vendor/
+*.log
+
+# Private QA & Test Harness Guard
+tests/
+reports/
+*.py
+*.html
+
+# Private QA & Test Harness Guard
 *.zip
+.env
+credentials*
