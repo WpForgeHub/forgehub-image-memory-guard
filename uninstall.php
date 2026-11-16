@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard Uninstall
+ * Image Memory Guard Uninstall
  *
  * @package WPFH_Image_Memory_Guard
  */

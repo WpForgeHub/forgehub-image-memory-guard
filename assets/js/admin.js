@@ -1,5 +1,5 @@
 /**
- * WPFH Image Memory Guard Admin Scripts
+ * Image Memory Guard Admin Scripts
  */
 (function($) {
 	'use strict';

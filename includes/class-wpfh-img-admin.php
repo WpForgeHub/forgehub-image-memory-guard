@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard Admin Settings & Diagnostics
+ * Image Memory Guard Admin Settings & Diagnostics
  *
  * @package WPFH_Image_Memory_Guard
  */
@@ -29,10 +29,10 @@ class WPFH_IMG_Admin {
 
 	public function add_menu_page() {
 		add_options_page(
-			__( 'Image Memory Guard', 'wpforgehub-image-memory-guard' ),
-			__( 'Image Memory Guard', 'wpforgehub-image-memory-guard' ),
+			__( 'Image Memory Guard', 'forgehub-image-memory-guard' ),
+			__( 'Image Memory Guard', 'forgehub-image-memory-guard' ),
 			'manage_options',
-			'wpforgehub-image-memory-guard',
+			'forgehub-image-memory-guard',
 			array( $this, 'render_admin_page' )
 		);
 	}
@@ -59,14 +59,14 @@ class WPFH_IMG_Admin {
 	}
 
 	public function add_action_links( $links ) {
-		$settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=wpfh-image-memory-guard' ) ) . '">' . __( 'Diagnostics', 'wpforgehub-image-memory-guard' ) . '</a>';
-		$pro_link      = '<a href="https://wpforgehub.com/plugins/wpfh-image-memory-guard/" style="color:#10b981;font-weight:700;" target="_blank">' . __( 'Upgrade to Pro', 'wpforgehub-image-memory-guard' ) . '</a>';
+		$settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=wpfh-image-memory-guard' ) ) . '">' . __( 'Diagnostics', 'forgehub-image-memory-guard' ) . '</a>';
+		$pro_link      = '<a href="https://wpforgehub.com/plugins/wpfh-image-memory-guard/" style="color:#10b981;font-weight:700;" target="_blank">' . __( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
 		array_unshift( $links, $settings_link, $pro_link );
 		return $links;
 	}
 
 	public function enqueue_assets( $hook ) {
-		if ( 'settings_page_wpforgehub-image-memory-guard' !== $hook ) {
+		if ( 'settings_page_forgehub-image-memory-guard' !== $hook ) {
 			return;
 		}
 
@@ -103,47 +103,47 @@ class WPFH_IMG_Admin {
 		$max_dim                = floor( sqrt( $max_pixels ) );
 		?>
 		<div class="wrap wpfh-img-wrap">
-			<h1>🛡️ <?php esc_html_e( 'WPFH Image Memory Guard', 'wpforgehub-image-memory-guard' ); ?></h1>
-			<p class="description"><?php esc_html_e( 'Proactive memory safety diagnostics and decompression budget calculator.', 'wpforgehub-image-memory-guard' ); ?></p>
+			<h1>🛡️ <?php esc_html_e( 'Image Memory Guard', 'forgehub-image-memory-guard' ); ?></h1>
+			<p class="description"><?php esc_html_e( 'Proactive memory safety diagnostics and decompression budget calculator.', 'forgehub-image-memory-guard' ); ?></p>
 
 			<!-- Diagnostics Grid -->
 			<div class="wpfh-stat-grid">
 				<div class="wpfh-stat-card">
-					<div class="wpfh-stat-label"><?php esc_html_e( 'PHP Memory Limit', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-label"><?php esc_html_e( 'PHP Memory Limit', 'forgehub-image-memory-guard' ); ?></div>
 					<div class="wpfh-stat-value highlight"><?php echo esc_html( $memory_limit ); ?></div>
 					<div class="wpfh-stat-desc"><?php echo esc_html( $limit_mb ); ?> MB Total Available</div>
 				</div>
 				<div class="wpfh-stat-card">
-					<div class="wpfh-stat-label"><?php esc_html_e( 'Peak Memory Used', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-label"><?php esc_html_e( 'Peak Memory Used', 'forgehub-image-memory-guard' ); ?></div>
 					<div class="wpfh-stat-value"><?php echo esc_html( $peak_mb ); ?> MB</div>
 					<div class="wpfh-stat-desc"><?php echo esc_html( $current_mb ); ?> MB Current Baseline</div>
 				</div>
 				<div class="wpfh-stat-card">
-					<div class="wpfh-stat-label"><?php esc_html_e( 'Active Image Engine', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-label"><?php esc_html_e( 'Active Image Engine', 'forgehub-image-memory-guard' ); ?></div>
 					<div class="wpfh-stat-value"><?php echo esc_html( $engine ); ?></div>
-					<div class="wpfh-stat-desc"><?php esc_html_e( 'PHP Graphics Driver', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-desc"><?php esc_html_e( 'PHP Graphics Driver', 'forgehub-image-memory-guard' ); ?></div>
 				</div>
 				<div class="wpfh-stat-card">
-					<div class="wpfh-stat-label"><?php esc_html_e( 'Max Safe Upload Resolution', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-label"><?php esc_html_e( 'Max Safe Upload Resolution', 'forgehub-image-memory-guard' ); ?></div>
 					<div class="wpfh-stat-value highlight-green"><?php echo esc_html( "{$max_dim} × {$max_dim} px" ); ?></div>
-					<div class="wpfh-stat-desc"><?php esc_html_e( 'Safe Decompression Budget', 'wpforgehub-image-memory-guard' ); ?></div>
+					<div class="wpfh-stat-desc"><?php esc_html_e( 'Safe Decompression Budget', 'forgehub-image-memory-guard' ); ?></div>
 				</div>
 			</div>
 
 			<!-- Live Budget Calculator -->
 			<div class="wpfh-calc-box">
-				<h3>🧮 <?php esc_html_e( 'Interactive Memory Budget Calculator', 'wpforgehub-image-memory-guard' ); ?></h3>
-				<p><?php esc_html_e( 'Enter dimensions of an image to test whether it would exceed server memory before uploading.', 'wpforgehub-image-memory-guard' ); ?></p>
+				<h3>🧮 <?php esc_html_e( 'Interactive Memory Budget Calculator', 'forgehub-image-memory-guard' ); ?></h3>
+				<p><?php esc_html_e( 'Enter dimensions of an image to test whether it would exceed server memory before uploading.', 'forgehub-image-memory-guard' ); ?></p>
 				<div class="wpfh-calc-form">
 					<div class="wpfh-calc-field">
-						<label><?php esc_html_e( 'Width (px):', 'wpforgehub-image-memory-guard' ); ?></label>
+						<label><?php esc_html_e( 'Width (px):', 'forgehub-image-memory-guard' ); ?></label>
 						<input type="number" id="calc_width" value="4000" min="100" max="20000" />
 					</div>
 					<div class="wpfh-calc-field">
-						<label><?php esc_html_e( 'Height (px):', 'wpforgehub-image-memory-guard' ); ?></label>
+						<label><?php esc_html_e( 'Height (px):', 'forgehub-image-memory-guard' ); ?></label>
 						<input type="number" id="calc_height" value="3000" min="100" max="20000" />
 					</div>
-					<button type="button" id="btn_calculate_budget" class="button button-primary"><?php esc_html_e( 'Calculate Memory Budget', 'wpforgehub-image-memory-guard' ); ?></button>
+					<button type="button" id="btn_calculate_budget" class="button button-primary"><?php esc_html_e( 'Calculate Memory Budget', 'forgehub-image-memory-guard' ); ?></button>
 				</div>
 				<div id="calc_result" class="wpfh-calc-result" data-limit-mb="<?php echo esc_attr( $limit_mb ); ?>" data-current-mb="<?php echo esc_attr( $current_mb ); ?>">
 					<!-- Calculated via JS -->
@@ -154,7 +154,7 @@ class WPFH_IMG_Admin {
 			<div class="wpfh-pro-card" style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-top:28px;color:#e2e8f0;max-width:850px;">
 				<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:16px;margin-bottom:16px;">
 					<div>
-						<h3 style="margin:0;font-size:18px;color:#f8fafc;">🚀 WPFH Image Memory Guard Pro</h3>
+						<h3 style="margin:0;font-size:18px;color:#f8fafc;">🚀 Image Memory Guard Pro</h3>
 						<p style="margin:4px 0 0 0;color:#94a3b8;font-size:13px;">Enterprise background batch resizing and WebP/AVIF generation.</p>
 					</div>
 					<a href="https://wpforgehub.com/plugins/wpfh-image-memory-guard/" target="_blank" style="background:#10b981;color:#ffffff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;">Upgrade to Pro &rarr;</a>

@@ -1,10 +1,10 @@
-=== WPForgeHub Image Memory Guard ===
+=== Image Memory Guard ===
 Contributors: wpforgehub
 Tags: memory limit, image memory, upload error, media library, image compression
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ One of the most common and disruptive errors in WordPress is uploading a high-re
 
 When an image is uploaded, WordPress and GD / Imagick must decompress the full uncompressed raster into RAM to generate intermediate thumbnails (thumbnail, medium, large, etc.). A 15 MB photo can easily require over 180 MB of RAM during decompression!
 
-**WPForgeHub Image Memory Guard** prevents this catastrophic crash before it happens:
+**Image Memory Guard** prevents this catastrophic crash before it happens:
 
 * **Pre-Flight Memory Budget Inspection**: Inspects the binary headers of uploaded images (`getimagesize`) without allocating full canvas memory. Calculates exact memory requirement before processing begins.
 * **Smart Auto-Downscaling**: Gracefully resizes oversized images down to manageable master dimensions instead of crashing the PHP process.
@@ -40,22 +40,25 @@ When an image is uploaded, WordPress and GD / Imagick must decompress the full u
 
 == Installation ==
 
-1. Upload the `wpfh-image-memory-guard` folder to the `/wp-content/plugins/` directory.
+1. Upload the `forgehub-image-memory-guard` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Navigate to **Settings > Image Memory Guard** to view server diagnostics and test image dimensions.
 
 == Frequently Asked Questions ==
 
-= How does WPForgeHub Image Memory Guard protect against memory crashes? =
+= How does Image Memory Guard protect against memory crashes? =
 It intercepts the upload process before image decompression occurs, calculates the necessary RAM budget using binary header dimensions, and either elevates memory temporarily or downscales the master file to prevent PHP crashes.
 
 = Does this plugin alter my original images? =
 Only if the image exceeds your server's safe memory limit and you have enabled the Auto-Downscaling feature. Otherwise, it simply prevents the crash and displays an informative notification.
 
 = Does this plugin require any external API or service? =
-No. WPForgeHub Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
+No. Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
 
 == Changelog ==
+
+= 1.1.2 =
+* Renamed plugin and slug to meet WordPress.org naming rules (no restricted terms).
 
 = 1.1.0 =
 * Feature: Pre-flight upload memory budget calculation.

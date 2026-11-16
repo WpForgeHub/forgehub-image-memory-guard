@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard — Pro WebP & AVIF Auto-Converter
+ * Image Memory Guard — Pro WebP & AVIF Auto-Converter
  *
  * Automatically generates modern WebP and AVIF versions of uploaded media,
  * with non-blocking CPU throttling to protect shared server cores.

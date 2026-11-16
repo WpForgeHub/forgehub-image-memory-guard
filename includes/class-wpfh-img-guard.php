@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard Core Engine
+ * Image Memory Guard Core Engine
  *
  * @package WPFH_Image_Memory_Guard
  */
@@ -107,7 +107,7 @@ class WPFH_IMG_Guard {
 				// Graceful error notification instead of fatal white screen
 				$file['error'] = sprintf(
 					/* translators: 1: Required memory in megabytes, 2: Server memory limit in megabytes. */
-					__( 'Upload prevented by Image Memory Guard: This image requires %1$s MB memory to decompress, but your server memory limit is %2$s MB. Please resize the image before uploading.', 'wpforgehub-image-memory-guard' ),
+					__( 'Upload prevented by Image Memory Guard: This image requires %1$s MB memory to decompress, but your server memory limit is %2$s MB. Please resize the image before uploading.', 'forgehub-image-memory-guard' ),
 					$needed_mb,
 					$limit_mb
 				);

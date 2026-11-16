@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard — Pro WP-CLI Media Library Audit Tool
+ * Image Memory Guard — Pro WP-CLI Media Library Audit Tool
  *
  * Provides command line commands:
  * `wp image-guard audit` - Scans media library for high-memory risk images

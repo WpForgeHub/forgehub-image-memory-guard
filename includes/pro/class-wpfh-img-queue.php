@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard — Pro Background Chunked Processing Queue
+ * Image Memory Guard — Pro Background Chunked Processing Queue
  *
  * Implements Action Scheduler / Cron based asynchronous image processing
  * to handle mass media optimizations without hitting PHP execution timeouts.

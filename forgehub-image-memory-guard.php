@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       WPForgeHub Image Memory Guard
+ * Plugin Name:       Image Memory Guard
  * Plugin URI:        https://wpforgehub.com/plugins/wpfh-image-memory-guard/
  * Description:       Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            WPForgeHub
  * Author URI:        https://wpforgehub.com
  * License:           GPL-2.0+
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wpforgehub-image-memory-guard
+ * Text Domain:       forgehub-image-memory-guard
  * Domain Path:       /languages
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPFH_IMG_VERSION', '1.1.1' );
+define( 'WPFH_IMG_VERSION', '1.1.2' );
 define( 'WPFH_IMG_FILE', __FILE__ );
 define( 'WPFH_IMG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WPFH_IMG_URL', plugin_dir_url( __FILE__ ) );
@@ -43,8 +43,8 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 					'has_addons'     => false,
 					'has_paid_plans' => true,
 					'menu'           => array(
-						'slug'       => 'wpforgehub-image-memory-guard',
-						'first-path' => 'options-general.php?page=wpforgehub-image-memory-guard',
+						'slug'       => 'forgehub-image-memory-guard',
+						'first-path' => 'options-general.php?page=forgehub-image-memory-guard',
 						'parent'     => array(
 							'slug' => 'options-general.php',
 						),

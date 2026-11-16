@@ -1,6 +1,6 @@
 <?php
 /**
- * WPFH Image Memory Guard — Pro EXIF & Privacy Metadata Sanitizer
+ * Image Memory Guard — Pro EXIF & Privacy Metadata Sanitizer
  *
  * Automatically strips personal GPS coordinates, camera hardware serials,
  * and privacy metadata from JPEG/PNG images upon media library upload.
