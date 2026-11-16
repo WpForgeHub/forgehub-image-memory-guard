@@ -4,7 +4,7 @@ Tags: memory limit, image memory, upload error, media library, image compression
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ Only if the image exceeds your server's safe memory limit and you have enabled t
 No. Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
 
 == Changelog ==
+
+= 1.1.4 =
+* Internal: option cleanup on uninstall also available through the Freemius after_uninstall hook (premium build).
 
 = 1.1.3 =
 * Fix: removed discouraged ini_set() call (Plugin Check warning); WordPress core applies the raised image memory limit.

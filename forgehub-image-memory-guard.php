@@ -3,7 +3,7 @@
  * Plugin Name:       Image Memory Guard
  * Plugin URI:        https://wpforgehub.com/plugins/wpfh-image-memory-guard/
  * Description:       Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
- * Version:           1.1.3
+ * Version:           1.1.4
  * Author:            WPForgeHub
  * Author URI:        https://wpforgehub.com
  * License:           GPL-2.0+
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPFH_IMG_VERSION', '1.1.3' );
+define( 'WPFH_IMG_VERSION', '1.1.4' );
 define( 'WPFH_IMG_FILE', __FILE__ );
 define( 'WPFH_IMG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WPFH_IMG_URL', plugin_dir_url( __FILE__ ) );
@@ -50,6 +50,8 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 						),
 					),
 				) );
+				// Freemius forbids uninstall.php in premium builds; use its after_uninstall hook there.
+				$wpfh_img_fs->add_action( 'after_uninstall', 'wpfh_img_uninstall_cleanup' );
 			} else {
 				// Clean fallback for standard WordPress distribution
 				$wpfh_img_fs = new class {
@@ -73,6 +75,14 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 	}
 
 	wpfh_img_fs();
+}
+
+/**
+ * Removes plugin options (Freemius premium build; free build uses uninstall.php).
+ */
+function wpfh_img_uninstall_cleanup() {
+	delete_option( 'wpfh_img_auto_downscale' );
+	delete_option( 'wpfh_img_max_dimension' );
 }
 
 /**
