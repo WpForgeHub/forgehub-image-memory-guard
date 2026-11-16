@@ -126,7 +126,7 @@ class WPFH_IMG_Guard {
 		$current_bytes= self::shorthand_to_bytes( $limit );
 
 		if ( $current_bytes < $target_bytes ) {
-			@ini_set( 'memory_limit', $target_limit );
+			// WordPress core (wp_raise_memory_limit) applies the returned value itself.
 			return $target_limit;
 		}
 
