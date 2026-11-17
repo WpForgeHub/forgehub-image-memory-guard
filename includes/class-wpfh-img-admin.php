@@ -59,7 +59,7 @@ class WPFH_IMG_Admin {
 	}
 
 	public function add_action_links( $links ) {
-		$settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=wpfh-image-memory-guard' ) ) . '">' . __( 'Diagnostics', 'forgehub-image-memory-guard' ) . '</a>';
+		$settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=forgehub-image-memory-guard' ) ) . '">' . __( 'Settings', 'forgehub-image-memory-guard' ) . '</a>';
 		$pro_link      = '<a href="https://wpforgehub.com/plugins/wpfh-image-memory-guard/" style="color:#10b981;font-weight:700;" target="_blank">' . __( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
 		array_unshift( $links, $settings_link, $pro_link );
 		return $links;

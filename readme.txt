@@ -1,10 +1,10 @@
-=== Image Memory Guard ===
+=== ForgeHub Image Memory Guard ===
 Contributors: wpforgehub
 Tags: memory limit, image memory, upload error, media library, image compression
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,10 @@ No. Image Memory Guard runs entirely locally on your WordPress server with zero 
 
 == Changelog ==
 
+
+= 1.1.5 =
+* Rename: plugin is now "ForgeHub Image Memory Guard" (ForgeHub naming standard).
+* Fix: Plugins screen now shows a consistent "Settings" link.
 = 1.1.4 =
 * Internal: option cleanup on uninstall also available through the Freemius after_uninstall hook (premium build).
 

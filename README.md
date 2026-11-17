@@ -1,11 +1,11 @@
-# Image Memory Guard
+# ForgeHub Image Memory Guard
 
 <p align="center">
   <img src="assets/banner-1544x500.png" alt="Image Memory Guard banner" width="100%" />
 </p>
 
 [![License](https://img.shields.io/badge/License-GPL%20v2%2B-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/Version-v1.1.4-purple.svg)](https://github.com/WpForgeHub/forgehub-image-memory-guard/releases/tag/v1.1.4)
+[![Version](https://img.shields.io/badge/Version-v1.1.5-purple.svg)](https://github.com/WpForgeHub/forgehub-image-memory-guard/releases/tag/v1.1.5)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg)](https://php.net/)
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b.svg)](https://wordpress.org/)
 [![Tested](https://img.shields.io/badge/Tested-WP%207.1-brightgreen.svg)](https://wordpress.org/)
@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://github.com/WpForgeHub/forgehub-image-memory-guard/releases/latest/download/forgehub-image-memory-guard-free.zip">
-    <img src="https://img.shields.io/badge/📥_Download_Free_ZIP-v1.1.4-2563eb?style=for-the-badge&logo=wordpress&logoColor=white" alt="Download Free ZIP" />
+    <img src="https://img.shields.io/badge/📥_Download_Free_ZIP-v1.1.5-2563eb?style=for-the-badge&logo=wordpress&logoColor=white" alt="Download Free ZIP" />
   </a>
   <a href="https://wpforgehub.com/plugins/image-memory-guard/">
     <img src="https://img.shields.io/badge/🌐_Plugin_Homepage-WPForgeHub-0f172a?style=for-the-badge" alt="Plugin Page" />
