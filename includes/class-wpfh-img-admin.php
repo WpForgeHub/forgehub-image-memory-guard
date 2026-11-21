@@ -60,7 +60,10 @@ class WPFH_IMG_Admin {
 
 	public function add_action_links( $links ) {
 		$settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=forgehub-image-memory-guard' ) ) . '">' . esc_html__( 'Settings', 'forgehub-image-memory-guard' ) . '</a>';
+		$is_pro        = false;
+		// <wpfh-pro-only>
 		$is_pro        = function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code();
+		// </wpfh-pro-only>
 		if ( ! $is_pro ) {
 			$pro_link = '<a href="https://wpforgehub.com/product/image-memory-guard/" style="color:#10b981;font-weight:700;" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
 			array_unshift( $links, $settings_link, $pro_link );
@@ -127,7 +130,10 @@ class WPFH_IMG_Admin {
 
 		$auto_downscale = get_option( 'wpfh_img_auto_downscale', 'yes' );
 		$max_dimension  = max( 320, absint( get_option( 'wpfh_img_max_dimension', 2560 ) ) );
+		$is_pro         = false;
+		// <wpfh-pro-only>
 		$is_pro         = function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code();
+		// </wpfh-pro-only>
 		?>
 		<div class="wrap wpfh-img-wrap">
 			<h1>🛡️ <?php esc_html_e( 'Image Memory Guard', 'forgehub-image-memory-guard' ); ?></h1>
