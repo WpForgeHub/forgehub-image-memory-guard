@@ -134,7 +134,13 @@ class WPFH_IMG_Guard {
 				if ( ! is_wp_error( $resized ) ) {
 					$saved = $editor->save( $tmp_name, $type );
 					if ( ! is_wp_error( $saved ) && ! empty( $saved['path'] ) && $saved['path'] !== $tmp_name && file_exists( $saved['path'] ) ) {
-						@rename( $saved['path'], $tmp_name );
+						if ( ! function_exists( 'WP_Filesystem' ) ) {
+							require_once ABSPATH . 'wp-admin/includes/file.php';
+						}
+						global $wp_filesystem;
+						if ( WP_Filesystem() && $wp_filesystem ) {
+							$wp_filesystem->move( $saved['path'], $tmp_name, true );
+						}
 					}
 				}
 			}
