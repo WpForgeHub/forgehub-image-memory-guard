@@ -30,7 +30,10 @@ class WPFH_IMG_Guard {
 	 * Convert PHP shorthand bytes (e.g. "256M") to integer bytes
 	 */
 	public static function shorthand_to_bytes( $value ) {
-		$value = trim( $value );
+		$value = trim( (string) $value );
+		if ( '-1' === $value ) {
+			return -1;
+		}
 		$last  = strtolower( substr( $value, -1 ) );
 		$val   = floatval( $value );
 
@@ -70,10 +73,10 @@ class WPFH_IMG_Guard {
 			return $file;
 		}
 
-		$width    = $image_info[0];
-		$height   = $image_info[1];
-		$channels = isset( $image_info['channels'] ) ? $image_info['channels'] : 4;
-		$bpp      = isset( $image_info['bits'] ) ? $image_info['bits'] : 8;
+		$width    = (int) $image_info[0];
+		$height   = (int) $image_info[1];
+		$channels = isset( $image_info['channels'] ) ? (int) $image_info['channels'] : 4;
+		$bpp      = isset( $image_info['bits'] ) ? (int) $image_info['bits'] : 8;
 
 		// Estimated decompression canvas memory + working buffer (1.8x factor)
 		$required_bytes = ( $width * $height * $channels * ( $bpp / 8 ) * 1.8 );
@@ -82,35 +85,58 @@ class WPFH_IMG_Guard {
 
 		$memory_limit_str = ini_get( 'memory_limit' );
 		$memory_limit     = self::shorthand_to_bytes( $memory_limit_str );
+		$auto_downscale   = get_option( 'wpfh_img_auto_downscale', 'yes' );
+		$max_dim          = max( 320, absint( get_option( 'wpfh_img_max_dimension', 2560 ) ) );
 
 		// -1 means unlimited
-		if ( $memory_limit > 0 ) {
-			$safety_threshold = $memory_limit * 0.90; // 90% budget cap
+		$exceeds_budget = ( $memory_limit > 0 && $total_needed > ( $memory_limit * 0.90 ) );
 
-			if ( $total_needed > $safety_threshold ) {
-				$needed_mb = round( $total_needed / 1024 / 1024, 1 );
-				$limit_mb  = round( $memory_limit / 1024 / 1024, 1 );
+		if ( $exceeds_budget ) {
+			// NEVER load an over-budget image at full resolution into GD/wp_get_image_editor() — that triggers the exact OOM Fatal Error we are preventing.
+			// Only Imagick's JPEG DCT shrink-on-load ('jpeg:size' hint set BEFORE readImage) can safely decode at reduced memory.
+			if ( 'yes' === $auto_downscale && 'image/jpeg' === $type && class_exists( 'Imagick' ) ) {
+				try {
+					$imagick = new Imagick();
+					$imagick->setOption( 'jpeg:size', $max_dim . 'x' . $max_dim );
+					$imagick->readImage( $tmp_name );
+					if ( method_exists( $imagick, 'autoOrient' ) ) {
+						$imagick->autoOrient();
+					}
+					$imagick->thumbnailImage( $max_dim, $max_dim, true );
+					$imagick->setImageCompressionQuality( 85 );
+					$imagick->writeImage( $tmp_name );
+					$imagick->clear();
+					$imagick->destroy();
+					return $file;
+				} catch ( Exception $e ) {
+					// Fall through to graceful rejection below.
+				}
+			}
 
-				// Check if auto-scale is allowed or return graceful rejection
-				$auto_downscale = get_option( 'wpfh_img_auto_downscale', 'yes' );
-				if ( 'yes' === $auto_downscale && function_exists( 'wp_get_image_editor' ) ) {
-					// Attempt safe editor downscale
-					$editor = wp_get_image_editor( $tmp_name );
-					if ( ! is_wp_error( $editor ) ) {
-						// Scale down to max 2560px
-						$editor->resize( 2560, 2560 );
-						$editor->save( $tmp_name );
-						return $file;
+			$needed_mb = round( $total_needed / 1024 / 1024, 1 );
+			$limit_mb  = round( $memory_limit / 1024 / 1024, 1 );
+
+			// Graceful error notification instead of fatal white screen
+			$file['error'] = sprintf(
+				/* translators: 1: Required memory in megabytes, 2: Server memory limit in megabytes. */
+				__( 'Upload prevented by Image Memory Guard: This image requires %1$s MB memory to decompress, but your server memory limit is %2$s MB. Please resize the image before uploading.', 'forgehub-image-memory-guard' ),
+				$needed_mb,
+				$limit_mb
+			);
+			return $file;
+		}
+
+		// Safe proactive downscale when within memory budget and image exceeds configured max dimension.
+		if ( 'yes' === $auto_downscale && ( $width > $max_dim || $height > $max_dim ) && function_exists( 'wp_get_image_editor' ) ) {
+			$editor = wp_get_image_editor( $tmp_name );
+			if ( ! is_wp_error( $editor ) ) {
+				$resized = $editor->resize( $max_dim, $max_dim, false );
+				if ( ! is_wp_error( $resized ) ) {
+					$saved = $editor->save( $tmp_name, $type );
+					if ( ! is_wp_error( $saved ) && ! empty( $saved['path'] ) && $saved['path'] !== $tmp_name && file_exists( $saved['path'] ) ) {
+						@rename( $saved['path'], $tmp_name );
 					}
 				}
-
-				// Graceful error notification instead of fatal white screen
-				$file['error'] = sprintf(
-					/* translators: 1: Required memory in megabytes, 2: Server memory limit in megabytes. */
-					__( 'Upload prevented by Image Memory Guard: This image requires %1$s MB memory to decompress, but your server memory limit is %2$s MB. Please resize the image before uploading.', 'forgehub-image-memory-guard' ),
-					$needed_mb,
-					$limit_mb
-				);
 			}
 		}
 
@@ -118,12 +144,16 @@ class WPFH_IMG_Guard {
 	}
 
 	/**
-	 * Dynamically elevate image memory limit to 512M if possible
+	 * Dynamically elevate image memory limit to 512M if possible (never downgrade unlimited -1).
 	 */
 	public function increase_image_memory_limit( $limit ) {
+		$current_bytes = self::shorthand_to_bytes( $limit );
+		if ( $current_bytes < 0 ) {
+			return $limit;
+		}
+
 		$target_limit = '512M';
 		$target_bytes = self::shorthand_to_bytes( $target_limit );
-		$current_bytes= self::shorthand_to_bytes( $limit );
 
 		if ( $current_bytes < $target_bytes ) {
 			// WordPress core (wp_raise_memory_limit) applies the returned value itself.

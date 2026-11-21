@@ -49,10 +49,37 @@ class WPFH_IMG_CLI {
     }
 
     public static function regenerate( $args, $assoc_args ) {
-        WP_CLI::line( 'Queueing batch WebP conversion...' );
-        if ( class_exists( 'WPFH_IMG_Queue' ) ) {
-            WPFH_IMG_Queue::get_instance()->process_batch();
-            WP_CLI::success( 'Batch WebP processing executed successfully.' );
+        if ( ! class_exists( 'WPFH_IMG_Queue' ) ) {
+            WP_CLI::error( 'Queue engine is not loaded.' );
         }
+
+        $queue = get_option( 'wpfh_img_background_queue', array() );
+        if ( empty( $queue ) ) {
+            WP_CLI::line( 'Queue is empty — scanning Media Library for image attachments...' );
+            $queue = get_posts( array(
+                'post_type'      => 'attachment',
+                'post_mime_type' => 'image',
+                'post_status'    => 'inherit',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+            ) );
+            update_option( 'wpfh_img_background_queue', $queue, false );
+        }
+
+        $total = count( $queue );
+        if ( 0 === $total ) {
+            WP_CLI::success( 'No image attachments found to process.' );
+            return;
+        }
+
+        WP_CLI::line( sprintf( 'Processing %d image attachments for WebP/AVIF conversion...', $total ) );
+        $runner = WPFH_IMG_Queue::get_instance();
+        $guard  = 0;
+        while ( ! empty( get_option( 'wpfh_img_background_queue', array() ) ) && $guard < 10000 ) {
+            $runner->process_batch();
+            $guard++;
+        }
+
+        WP_CLI::success( sprintf( 'Batch WebP/AVIF processing completed for %d images.', $total ) );
     }
 }

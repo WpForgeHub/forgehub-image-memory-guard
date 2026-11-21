@@ -84,6 +84,8 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 function wpfh_img_uninstall_cleanup() {
 	delete_option( 'wpfh_img_auto_downscale' );
 	delete_option( 'wpfh_img_max_dimension' );
+	delete_option( 'wpfh_img_background_queue' );
+	wp_clear_scheduled_hook( 'wpfh_img_process_queue_batch' );
 }
 // </wpfh-pro-only>
 

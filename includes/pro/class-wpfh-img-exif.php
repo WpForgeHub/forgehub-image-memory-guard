@@ -44,11 +44,19 @@ class WPFH_IMG_EXIF {
             return false;
         }
 
-        // If Imagick is available, clean all profiles
+        // If Imagick is available: auto-orient FIRST so portrait photos aren't rotated sideways,
+        // and preserve ICC color profile while stripping GPS/EXIF metadata.
         if ( class_exists( 'Imagick' ) ) {
             try {
                 $imagick = new Imagick( $file_path );
+                if ( method_exists( $imagick, 'autoOrient' ) ) {
+                    $imagick->autoOrient();
+                }
+                $icc_profiles = $imagick->getImageProfiles( 'icc', true );
                 $imagick->stripImage();
+                if ( ! empty( $icc_profiles['icc'] ) ) {
+                    $imagick->profileImage( 'icc', $icc_profiles['icc'] );
+                }
                 $imagick->writeImage( $file_path );
                 $imagick->clear();
                 $imagick->destroy();
@@ -58,10 +66,24 @@ class WPFH_IMG_EXIF {
             }
         }
 
-        // GD fallback: re-saving strips non-standard EXIF markers
+        // GD fallback: apply EXIF orientation before re-saving (re-saving strips EXIF markers).
         if ( function_exists( 'imagecreatefromjpeg' ) && function_exists( 'imagejpeg' ) ) {
+            $orientation = 1;
+            if ( function_exists( 'exif_read_data' ) ) {
+                $exif = @exif_read_data( $file_path );
+                if ( ! empty( $exif['Orientation'] ) ) {
+                    $orientation = (int) $exif['Orientation'];
+                }
+            }
             $img = @imagecreatefromjpeg( $file_path );
             if ( $img ) {
+                if ( 3 === $orientation && function_exists( 'imagerotate' ) ) {
+                    $img = imagerotate( $img, 180, 0 );
+                } elseif ( 6 === $orientation && function_exists( 'imagerotate' ) ) {
+                    $img = imagerotate( $img, -90, 0 );
+                } elseif ( 8 === $orientation && function_exists( 'imagerotate' ) ) {
+                    $img = imagerotate( $img, 90, 0 );
+                }
                 @imagejpeg( $img, $file_path, 90 );
                 @imagedestroy( $img );
                 return true;

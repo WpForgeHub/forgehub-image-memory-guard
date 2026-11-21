@@ -52,9 +52,10 @@ class WPFH_IMG_Queue {
         foreach ( $batch as $attachment_id ) {
             $file = get_attached_file( $attachment_id );
             if ( $file && file_exists( $file ) ) {
-                // Apply WebP conversion or resizing if enabled
+                // Apply WebP and AVIF conversion if enabled
                 if ( class_exists( 'WPFH_IMG_WebP' ) ) {
                     WPFH_IMG_WebP::convert_to_webp( $file );
+                    WPFH_IMG_WebP::convert_to_avif( $file );
                 }
             }
         }
@@ -78,7 +79,7 @@ class WPFH_IMG_Queue {
             'post_type'      => 'attachment',
             'post_mime_type' => 'image',
             'post_status'    => 'inherit',
-            'posts_per_page' => 50,
+            'posts_per_page' => -1,
             'fields'         => 'ids',
         ) );
 
