@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       ForgeHub Image Memory Guard
- * Plugin URI:        https://wpforgehub.com/plugins/image-memory-guard/
+ * Plugin URI:        https://wpforgehub.com/product/image-memory-guard/
  * Description:       Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
- * Version:           1.1.5
+ * Version:           1.1.6
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            WPForgeHub
@@ -18,11 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPFH_IMG_VERSION', '1.1.5' );
+define( 'WPFH_IMG_VERSION', '1.1.6' );
 define( 'WPFH_IMG_FILE', __FILE__ );
 define( 'WPFH_IMG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WPFH_IMG_URL', plugin_dir_url( __FILE__ ) );
 
+// <wpfh-pro-only>
 /**
  * Extensible helper wrapper
  */
@@ -65,7 +66,7 @@ if ( ! function_exists( 'wpfh_img_fs' ) ) {
 						return (bool) apply_filters( 'fs_is_plan__wpfh-image-memory-guard', false, $plan );
 					}
 					public function get_upgrade_url() {
-						return 'https://wpforgehub.com/plugins/wpfh-image-memory-guard/';
+						return 'https://wpforgehub.com/product/image-memory-guard/';
 					}
 				};
 			}
@@ -84,6 +85,7 @@ function wpfh_img_uninstall_cleanup() {
 	delete_option( 'wpfh_img_auto_downscale' );
 	delete_option( 'wpfh_img_max_dimension' );
 }
+// </wpfh-pro-only>
 
 /**
  * Main Plugin Class
@@ -112,6 +114,7 @@ final class WPFH_Image_Memory_Guard {
 		WPFH_IMG_Guard::get_instance();
 		WPFH_IMG_Admin::get_instance();
 
+		// <wpfh-pro-only>
 		// Pro Modules
 		if ( function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code() ) {
 			$pro_queue = WPFH_IMG_PATH . 'includes/pro/class-wpfh-img-queue.php';
@@ -136,6 +139,7 @@ final class WPFH_Image_Memory_Guard {
 				WPFH_IMG_CLI::init();
 			}
 		}
+		// </wpfh-pro-only>
 	}
 }
 

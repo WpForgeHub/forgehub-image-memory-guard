@@ -1,10 +1,10 @@
 === ForgeHub Image Memory Guard ===
 Contributors: wpforgehub
-Tags: memory limit, image memory, upload error, media library, image compression
+Tags: memory limit, image memory, upload error, media library, php memory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,7 +32,8 @@ When an image is uploaded, WordPress and GD / Imagick must decompress the full u
 * **Live System Diagnostics**: Monitor PHP memory limits, peak usage, and max safe resolutions.
 * **Memory De-allocation**: Calls garbage collection after thumbnail generation cycles.
 
-### Pro Features
+### Pro Features (Separate Commercial Plugin)
+Need background processing or next-gen conversion? The separate commercial Pro edition is available at [WPForgeHub](https://wpforgehub.com/product/image-memory-guard/) and is not bundled in this free plugin:
 * **Background Chunked Resizing**: Queue heavy resizing tasks in the background via Action Scheduler.
 * **WebP & AVIF Dual Engine**: Auto-convert uploaded images to next-gen formats with CPU throttling.
 * **WP-CLI Library Audit**: Scan entire media library via command line for memory-heavy attachments.
@@ -57,6 +58,9 @@ No. Image Memory Guard runs entirely locally on your WordPress server with zero 
 
 == Changelog ==
 
+= 1.1.6 =
+* Compliance: removed all premium/license wrapper code from the WordPress.org free distribution.
+* Fix: updated product links to the canonical product page and excluded WordPress.org directory banner/icon assets from the plugin package.
 
 = 1.1.5 =
 * Rename: plugin is now "ForgeHub Image Memory Guard" (ForgeHub naming standard).
