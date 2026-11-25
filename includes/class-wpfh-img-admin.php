@@ -65,7 +65,7 @@ class WPFH_IMG_Admin {
 		$is_pro        = function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code();
 		// </wpfh-pro-only>
 		if ( ! $is_pro ) {
-			$pro_link = '<a href="https://wpforgehub.com/product/image-memory-guard/" style="color:#10b981;font-weight:700;" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
+			$pro_link = '<a href="https://wpforgehub.com/product/image-memory-guard/#pricing" style="color:#10b981;font-weight:700;" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
 			array_unshift( $links, $settings_link, $pro_link );
 		} else {
 			array_unshift( $links, $settings_link );
@@ -237,7 +237,7 @@ class WPFH_IMG_Admin {
 						<h3 style="margin:0;font-size:18px;color:#f8fafc;">🚀 Image Memory Guard Pro</h3>
 						<p style="margin:4px 0 0 0;color:#94a3b8;font-size:13px;">Enterprise background batch resizing and WebP/AVIF generation.</p>
 					</div>
-					<a href="https://wpforgehub.com/product/image-memory-guard/" target="_blank" rel="noopener noreferrer" style="background:#10b981;color:#ffffff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;">Upgrade to Pro &rarr;</a>
+					<a href="https://wpforgehub.com/product/image-memory-guard/#pricing" target="_blank" rel="noopener noreferrer" style="background:#10b981;color:#ffffff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;">Upgrade to Pro &rarr;</a>
 				</div>
 				<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px;">
 					<div style="background:#1e293b;padding:12px 16px;border-radius:8px;">

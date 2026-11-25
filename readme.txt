@@ -4,7 +4,7 @@ Tags: memory limit, image memory, upload error, media library, php memory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Only if the image exceeds your server's safe memory limit and you have enabled t
 No. Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
 
 == Changelog ==
+
+= 1.1.8 =
+* Standardize Upgrade to Pro links to canonical `#pricing` product URL.
 
 = 1.1.7 =
 * Fix OOM auto-downscale & unlimited memory_limit handling, add admin settings form, Pro AVIF/EXIF orientation/ICC/CLI fixes, strip Pro checks from Free ZIP
