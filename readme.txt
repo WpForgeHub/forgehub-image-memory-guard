@@ -58,7 +58,7 @@ No. Image Memory Guard runs entirely locally on your WordPress server with zero 
 
 == Screenshots ==
 
-1. Image Memory Guard settings, live PHP memory diagnostics, and interactive memory budget calculator.
+1. Image Memory Guard admin page — live PHP memory diagnostics, upload protection settings, and interactive memory budget calculator.
 
 == Changelog ==
 
