@@ -56,6 +56,10 @@ Only if the image exceeds your server's safe memory limit and you have enabled t
 = Does this plugin require any external API or service? =
 No. Image Memory Guard runs entirely locally on your WordPress server with zero external dependencies.
 
+== Screenshots ==
+
+1. Image Memory Guard settings, live PHP memory diagnostics, and interactive memory budget calculator.
+
 == Changelog ==
 
 = 1.1.8 =
