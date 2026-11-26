@@ -107,6 +107,9 @@ class WPFH_IMG_Guard {
 					$imagick->writeImage( $tmp_name );
 					$imagick->clear();
 					$imagick->destroy();
+					if ( class_exists( 'WPFH_Review_Nudge' ) ) {
+						WPFH_Review_Nudge::track_success( 'wpfh_img' );
+					}
 					return $file;
 				} catch ( Exception $e ) {
 					// Fall through to graceful rejection below.
@@ -144,6 +147,10 @@ class WPFH_IMG_Guard {
 					}
 				}
 			}
+		}
+
+		if ( class_exists( 'WPFH_Review_Nudge' ) ) {
+			WPFH_Review_Nudge::track_success( 'wpfh_img' );
 		}
 
 		return $file;

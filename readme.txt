@@ -4,7 +4,7 @@ Tags: memory limit, image memory, upload error, media library, php memory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,10 @@ No. Image Memory Guard runs entirely locally on your WordPress server with zero 
 1. Image Memory Guard admin page — live PHP memory diagnostics, upload protection settings, and interactive memory budget calculator.
 
 == Changelog ==
+
+= 1.1.9 =
+* Enhancement: Zero-Nag admin experience — replaced the Pro upsell card with a single calm Priority Support & Pro footer link using `get_upgrade_url()`.
+* Enhancement: Added Value-Moment review nudge (`WPFH_Review_Nudge`) that stays hidden on Day 0, triggers only after 5 protected uploads or 7 days of trouble-free use, and dismisses permanently in one click.
 
 = 1.1.8 =
 * Standardize Upgrade to Pro links to canonical `#pricing` product URL.

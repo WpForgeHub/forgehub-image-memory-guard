@@ -3,7 +3,7 @@
  * Plugin Name:       ForgeHub Image Memory Guard
  * Plugin URI:        https://wpforgehub.com/product/image-memory-guard/
  * Description:       Proactive memory protection for WordPress media library. Pre-calculates image memory budgets, prevents PHP fatal memory exhaustion, and enables safe auto-scaling.
- * Version:           1.1.8
+ * Version:           1.1.9
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            WPForgeHub
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPFH_IMG_VERSION', '1.1.8' );
+define( 'WPFH_IMG_VERSION', '1.1.9' );
 define( 'WPFH_IMG_FILE', __FILE__ );
 define( 'WPFH_IMG_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WPFH_IMG_URL', plugin_dir_url( __FILE__ ) );
@@ -85,6 +85,7 @@ function wpfh_img_uninstall_cleanup() {
 	delete_option( 'wpfh_img_auto_downscale' );
 	delete_option( 'wpfh_img_max_dimension' );
 	delete_option( 'wpfh_img_background_queue' );
+	delete_option( 'wpfh_img_review_nudge' );
 	wp_clear_scheduled_hook( 'wpfh_img_process_queue_batch' );
 }
 // </wpfh-pro-only>
@@ -110,6 +111,7 @@ final class WPFH_Image_Memory_Guard {
 	public function init() {
 		// Note: load_plugin_textdomain is intentionally omitted as WordPress.org automatically loads translations since WP 4.6.
 
+		require_once WPFH_IMG_PATH . 'includes/class-wpfh-review-nudge.php';
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-guard.php';
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-admin.php';
 

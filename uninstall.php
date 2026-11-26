@@ -12,4 +12,5 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 delete_option( 'wpfh_img_auto_downscale' );
 delete_option( 'wpfh_img_max_dimension' );
 delete_option( 'wpfh_img_background_queue' );
+delete_option( 'wpfh_img_review_nudge' );
 wp_clear_scheduled_hook( 'wpfh_img_process_queue_batch' );

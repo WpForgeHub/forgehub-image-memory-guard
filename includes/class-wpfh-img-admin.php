@@ -25,6 +25,43 @@ class WPFH_IMG_Admin {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( WPFH_IMG_FILE ), array( $this, 'add_action_links' ) );
+
+		if ( is_admin() && class_exists( 'WPFH_Review_Nudge' ) ) {
+			$nudge = new WPFH_Review_Nudge(
+				array(
+					'plugin_slug'   => 'forgehub-image-memory-guard',
+					'plugin_name'   => 'ForgeHub Image Memory Guard',
+					'option_prefix' => 'wpfh_img',
+					'wporg_slug'    => 'forgehub-image-memory-guard',
+					'github_url'    => 'https://github.com/WpForgeHub/forgehub-image-memory-guard',
+					'min_actions'   => 5,
+					'min_days'      => 7,
+					'trigger_mode'  => 'or',
+					'screens'       => array( 'settings_page_forgehub-image-memory-guard', 'upload', 'plugins' ),
+					'strings'       => array(
+						/* translators: %s: Plugin name. */
+						'heading'     => sprintf( __( 'Enjoying %s?', 'forgehub-image-memory-guard' ), 'ForgeHub Image Memory Guard' ),
+						/* translators: %s: Plugin name. */
+						'message'     => sprintf( __( 'If %s has helped protect your uploads, a quick 5-star review helps other site owners discover it and keeps development active.', 'forgehub-image-memory-guard' ), 'ForgeHub Image Memory Guard' ),
+						'rate_cta'    => __( 'Rate 5 Stars on WordPress.org', 'forgehub-image-memory-guard' ),
+						'github_cta'  => __( 'Star on GitHub', 'forgehub-image-memory-guard' ),
+						'later_cta'   => __( 'Maybe later', 'forgehub-image-memory-guard' ),
+						'dismiss_cta' => __( 'Already did / Dismiss', 'forgehub-image-memory-guard' ),
+					),
+				)
+			);
+			$nudge->register();
+		}
+	}
+
+	private function get_upgrade_url() {
+		$url = 'https://wpforgehub.com/product/image-memory-guard/#pricing';
+		// <wpfh-pro-only>
+		if ( function_exists( 'wpfh_img_fs' ) ) {
+			$url = wpfh_img_fs()->get_upgrade_url();
+		}
+		// </wpfh-pro-only>
+		return $url;
 	}
 
 	public function add_menu_page() {
@@ -65,7 +102,7 @@ class WPFH_IMG_Admin {
 		$is_pro        = function_exists( 'wpfh_img_fs' ) && wpfh_img_fs()->can_use_premium_code();
 		// </wpfh-pro-only>
 		if ( ! $is_pro ) {
-			$pro_link = '<a href="https://wpforgehub.com/product/image-memory-guard/#pricing" style="color:#10b981;font-weight:700;" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Upgrade to Pro', 'forgehub-image-memory-guard' ) . '</a>';
+			$pro_link = '<a href="' . esc_url( $this->get_upgrade_url() ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Priority Support & Pro', 'forgehub-image-memory-guard' ) . '</a>';
 			array_unshift( $links, $settings_link, $pro_link );
 		} else {
 			array_unshift( $links, $settings_link );
@@ -230,34 +267,15 @@ class WPFH_IMG_Admin {
 				<span id="wpfh_img_queue_feedback" style="margin-left:12px;font-weight:600;"></span>
 			</div>
 			<?php else : ?>
-			<!-- Pro Upsell -->
-			<div class="wpfh-pro-card" style="background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:24px;margin-top:28px;color:#e2e8f0;max-width:850px;">
-				<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155;padding-bottom:16px;margin-bottom:16px;">
-					<div>
-						<h3 style="margin:0;font-size:18px;color:#f8fafc;">🚀 Image Memory Guard Pro</h3>
-						<p style="margin:4px 0 0 0;color:#94a3b8;font-size:13px;">Enterprise background batch resizing and WebP/AVIF generation.</p>
-					</div>
-					<a href="https://wpforgehub.com/product/image-memory-guard/#pricing" target="_blank" rel="noopener noreferrer" style="background:#10b981;color:#ffffff;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;">Upgrade to Pro &rarr;</a>
-				</div>
-				<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px;">
-					<div style="background:#1e293b;padding:12px 16px;border-radius:8px;">
-						<strong style="color:#38bdf8;">🔄 Background Chunked Resizing</strong>
-						<p style="margin:4px 0 0 0;color:#cbd5e1;">Offload huge thumbnail generation to background queues with 0 frontend slowdown.</p>
-					</div>
-					<div style="background:#1e293b;padding:12px 16px;border-radius:8px;">
-						<strong style="color:#38bdf8;">⚡ WebP & AVIF Dual Engine</strong>
-						<p style="margin:4px 0 0 0;color:#cbd5e1;">Automatically generates next-gen WebP & AVIF copies with CPU throttling safeguards.</p>
-					</div>
-					<div style="background:#1e293b;padding:12px 16px;border-radius:8px;">
-						<strong style="color:#38bdf8;">💻 WP-CLI Image Audit</strong>
-						<p style="margin:4px 0 0 0;color:#cbd5e1;">Command line tools to scan your entire media library for memory-hog attachments.</p>
-					</div>
-					<div style="background:#1e293b;padding:12px 16px;border-radius:8px;">
-						<strong style="color:#38bdf8;">🛡️ Automatic EXIF Sanitizer</strong>
-						<p style="margin:4px 0 0 0;color:#cbd5e1;">Strips privacy-sensitive GPS and camera metadata while preserving orientation and ICC profiles.</p>
-					</div>
-				</div>
-			</div>
+			<p class="wpfh-img-footer-note" style="margin-top:20px;color:#50575e;font-size:13px;">
+				<?php
+				printf(
+					/* translators: %s: link to optional Pro edition and priority support */
+					esc_html__( 'Need background WebP/AVIF batch queues, WP-CLI audits, or priority support? %s', 'forgehub-image-memory-guard' ),
+					'<a href="' . esc_url( $this->get_upgrade_url() ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Priority Support & Pro', 'forgehub-image-memory-guard' ) . '</a>'
+				);
+				?>
+			</p>
 			<?php endif; ?>
 		</div>
 		<?php
