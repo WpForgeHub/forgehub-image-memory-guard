@@ -9,7 +9,7 @@
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg)](https://php.net/)
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b.svg)](https://wordpress.org/)
 [![Tested](https://img.shields.io/badge/Tested-WP%207.1-brightgreen.svg)](https://wordpress.org/)
-[![wp.org](https://img.shields.io/badge/wp.org-pending%20review-orange.svg)](https://wordpress.org/plugins/)
+[![wp.org](https://img.shields.io/badge/wp.org-live%20on%20WP.org-16a34a.svg)](https://wordpress.org/plugins/forgehub-image-memory-guard/)
 [![Freemius](https://img.shields.io/badge/Freemius-Pro%20available-0d9488.svg)](https://wpforgehub.com/)
 [![Architecture](https://img.shields.io/badge/Architecture-Zero%20Bloat-06b6d4.svg)](https://wpforgehub.com/)
 
@@ -62,11 +62,28 @@ On servers with typical 128MB or 256MB PHP memory limits, this causes:
 
 ---
 
+## 📸 Admin Preview
+
+<p align="center">
+  <img src="assets/screenshot-1.png" alt="ForgeHub Image Memory Guard WordPress Admin Settings" width="100%" />
+</p>
+
+---
+
 ## 🛠️ Installation
 
 1. Upload the `forgehub-image-memory-guard` folder to `/wp-content/plugins/`.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Navigate to **Settings > Image Memory Guard** to view server diagnostics.
+
+---
+
+## 🔗 Links & Resources
+
+- **Plugin Page:** [https://wpforgehub.com/product/image-memory-guard/](https://wpforgehub.com/product/image-memory-guard/)
+- **Documentation & Help:** [wpforgehub.com/docs](https://wpforgehub.com/docs/)
+- **More Free WordPress Plugins:** [wpforgehub.com](https://wpforgehub.com/#products)
+- **WordPress.org Directory:** [wordpress.org/plugins/forgehub-image-memory-guard](https://wordpress.org/plugins/forgehub-image-memory-guard/)
 
 ---
 
