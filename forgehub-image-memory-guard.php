@@ -112,6 +112,7 @@ final class WPFH_Image_Memory_Guard {
 		// Note: load_plugin_textdomain is intentionally omitted as WordPress.org automatically loads translations since WP 4.6.
 
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-review-nudge.php';
+		require_once WPFH_IMG_PATH . 'includes/class-wpfh-help-tools-card.php';
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-guard.php';
 		require_once WPFH_IMG_PATH . 'includes/class-wpfh-img-admin.php';
 

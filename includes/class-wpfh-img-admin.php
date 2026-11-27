@@ -35,9 +35,9 @@ class WPFH_IMG_Admin {
 					'wporg_slug'    => 'forgehub-image-memory-guard',
 					'github_url'    => 'https://github.com/WpForgeHub/forgehub-image-memory-guard',
 					'min_actions'   => 5,
-					'min_days'      => 7,
+					'min_days'      => 14,
 					'trigger_mode'  => 'or',
-					'screens'       => array( 'settings_page_forgehub-image-memory-guard', 'upload', 'plugins' ),
+					'screens'       => array( 'settings_page_forgehub-image-memory-guard' ),
 					'strings'       => array(
 						/* translators: %s: Plugin name. */
 						'heading'     => sprintf( __( 'Enjoying %s?', 'forgehub-image-memory-guard' ), 'ForgeHub Image Memory Guard' ),
@@ -45,8 +45,8 @@ class WPFH_IMG_Admin {
 						'message'     => sprintf( __( 'If %s has helped protect your uploads, a quick 5-star review helps other site owners discover it and keeps development active.', 'forgehub-image-memory-guard' ), 'ForgeHub Image Memory Guard' ),
 						'rate_cta'    => __( 'Rate 5 Stars on WordPress.org', 'forgehub-image-memory-guard' ),
 						'github_cta'  => __( 'Star on GitHub', 'forgehub-image-memory-guard' ),
-						'later_cta'   => __( 'Maybe later', 'forgehub-image-memory-guard' ),
-						'dismiss_cta' => __( 'Already did / Dismiss', 'forgehub-image-memory-guard' ),
+						'later_cta'   => __( 'Remind me in 14 days', 'forgehub-image-memory-guard' ),
+						'dismiss_cta' => __( "Don't show again", 'forgehub-image-memory-guard' ),
 					),
 				)
 			);
@@ -277,6 +277,48 @@ class WPFH_IMG_Admin {
 				?>
 			</p>
 			<?php endif; ?>
+
+			<?php
+			if ( class_exists( 'WPFH_Help_Tools_Card' ) ) {
+				$help_card = new WPFH_Help_Tools_Card(
+					array(
+						'plugin_name' => 'ForgeHub Image Memory Guard',
+						'docs_url'    => 'https://wpforgehub.com/docs/',
+						'support_url' => 'https://wordpress.org/support/plugin/forgehub-image-memory-guard/',
+						'catalog_url' => 'https://wpforgehub.com/#products',
+						'theme'       => 'light',
+						'tools'       => array(
+							array(
+								'name'    => 'ForgeHub Unused Media Finder',
+								'tagline' => __( 'Safely scan and clean orphaned uploads bloating your media library.', 'forgehub-image-memory-guard' ),
+								'url'     => 'https://wpforgehub.com/product/unused-media/',
+							),
+							array(
+								'name'    => 'ForgeHub Smart Redirect',
+								'tagline' => __( 'Auto-heal 404 errors with fuzzy slug matching and clean 301 rules.', 'forgehub-image-memory-guard' ),
+								'url'     => 'https://wpforgehub.com/product/smart-redirect/',
+							),
+							array(
+								'name'    => 'ForgeHub Local Fonts & Speed',
+								'tagline' => __( 'Self-host Google Fonts locally for faster Core Web Vitals and GDPR.', 'forgehub-image-memory-guard' ),
+								'url'     => 'https://wpforgehub.com/product/local-fonts-speed/',
+							),
+						),
+						'strings'     => array(
+							'help_heading'  => __( 'Help & Documentation', 'forgehub-image-memory-guard' ),
+							/* translators: %s: Plugin name. */
+							'help_desc'     => sprintf( __( 'Need setup guides, memory budget tips, or answers for %s?', 'forgehub-image-memory-guard' ), 'ForgeHub Image Memory Guard' ),
+							'docs_cta'      => __( 'Read Documentation', 'forgehub-image-memory-guard' ),
+							'support_cta'   => __( 'WordPress.org Support', 'forgehub-image-memory-guard' ),
+							'tools_heading' => __( 'Other Free ForgeHub Tools', 'forgehub-image-memory-guard' ),
+							'tools_cta'     => __( 'Browse All Free Tools', 'forgehub-image-memory-guard' ),
+							'tool_link_cta' => __( 'Explore tool', 'forgehub-image-memory-guard' ),
+						),
+					)
+				);
+				$help_card->render();
+			}
+			?>
 		</div>
 		<?php
 	}
